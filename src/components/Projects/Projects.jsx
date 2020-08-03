@@ -68,7 +68,7 @@ const Projects = () => {
                         className="cta-btn cta-btn--me"
                         href={htmlUrl}
                       >
-                        Ver projeto no github
+                        Ver no github
                       </a>
                     </Card.Body>
                     <Card.Footer>Criado em: {createdAt}</Card.Footer>

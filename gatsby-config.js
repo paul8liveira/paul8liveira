@@ -31,5 +31,9 @@ module.exports = {
         icon: 'src/images/favicon.png',
       },
     },
+    {
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: { prefixes: [`/admin/*`] },
+    },
   ],
 };

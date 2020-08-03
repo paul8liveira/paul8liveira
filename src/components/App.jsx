@@ -4,12 +4,12 @@ import { format } from 'date-fns';
 import Me from './Me/Me';
 import About from './About/About';
 import Projects from './Projects/Projects';
+import Contact from './Contact/Contact';
 import Footer from './Footer/Footer';
 
 import { PortfolioProvider } from '../context/context';
 
 import { meData, aboutData, footerData } from '../mock/data';
-import Contact from './Contact/Contact';
 
 function App() {
   const [me, setMe] = useState({});
