@@ -1,26 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { navigate } from 'gatsby';
 import { Container } from 'react-bootstrap';
-import Fade from 'react-reveal/Fade';
+import { SocialLogins, useAuth } from 'gatsby-theme-firebase';
 
 const Login = () => {
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const { isLoggedIn } = useAuth();
 
-  useEffect(() => {
-    if (window.innerWidth > 769) {
-      setIsDesktop(true);
-      setIsMobile(false);
-    } else {
-      setIsMobile(true);
-      setIsDesktop(false);
-    }
-  }, []);
+  if (isLoggedIn) {
+    navigate('/admin/blog');
+    return null;
+  }
+
+  const checkIfCanAuthenticate = () => {
+    // TODO: validar somente meu user
+    navigate('/admin/blog');
+  };
 
   return (
-    <Container>
-      <Fade left={isDesktop} bottom={isMobile} duration={1000} delay={1000} distance="30px">
-        integação com authentication
-      </Fade>
+    <Container className="mt-5">
+      <SocialLogins
+        style={{ width: '300px' }}
+        onSuccess={() => {
+          checkIfCanAuthenticate();
+        }}
+      />
     </Container>
   );
 };

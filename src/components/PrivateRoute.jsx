@@ -1,12 +1,19 @@
 import React from 'react';
 import { navigate } from 'gatsby';
 import PropTypes from 'prop-types';
-import { isLoggedIn } from '../services/Auth';
+import { useAuth } from 'gatsby-theme-firebase';
 
 const loginPath = '/admin/login';
 
 const PrivateRoute = ({ component: Component, location, ...rest }) => {
-  if (!isLoggedIn() && location.pathname !== loginPath) {
+  const { isLoading, isLoggedIn } = useAuth();
+
+  // não segue enquanto a inscrição no evento useAuth não for executada
+  if (isLoading) {
+    return null;
+  }
+
+  if (!isLoggedIn && location.pathname !== loginPath) {
     navigate(loginPath);
     return null;
   }
@@ -15,7 +22,7 @@ const PrivateRoute = ({ component: Component, location, ...rest }) => {
 
 /* eslint-disable react/forbid-prop-types */
 PrivateRoute.propTypes = {
-  component: PropTypes.elementType.isRequired,
+  component: PropTypes.any.isRequired,
   location: PropTypes.any,
 };
 

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from 'gatsby-theme-firebase';
 import { nanoid } from 'nanoid';
 import { format } from 'date-fns';
+import Nav from './Navbar/Navbar';
 import Me from './Me/Me';
 import About from './About/About';
 import Projects from './Projects/Projects';
@@ -16,6 +18,7 @@ function App() {
   const [about, setAbout] = useState({});
   const [projects, setProjects] = useState([]);
   const [footer, setFooter] = useState({});
+  const { isLoggedIn, profile } = useAuth();
 
   async function getLanguages(url) {
     const response = await fetch(url);
@@ -62,7 +65,8 @@ function App() {
   }, []);
 
   return (
-    <PortfolioProvider value={{ me, about, projects, footer }}>
+    <PortfolioProvider value={{ me, about, projects, footer, isLoggedIn, profile }}>
+      <Nav />
       <Me />
       <About />
       <Projects />
