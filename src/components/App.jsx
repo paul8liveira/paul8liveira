@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from 'gatsby-theme-firebase';
+import { graphql, StaticQuery } from 'gatsby';
 import { nanoid } from 'nanoid';
 import { format } from 'date-fns';
 import Nav from './Navbar/Navbar';
@@ -11,13 +12,9 @@ import Footer from './Footer/Footer';
 
 import { PortfolioProvider } from '../context/context';
 
-import { meData, aboutData, footerData } from '../mock/data';
-
 function App() {
-  const [me, setMe] = useState({});
-  const [about, setAbout] = useState({});
   const [projects, setProjects] = useState([]);
-  const [footer, setFooter] = useState({});
+
   const { isLoggedIn, profile } = useAuth();
 
   async function getLanguages(url) {
@@ -57,22 +54,53 @@ function App() {
 
   useEffect(() => {
     const repos = getGitHubRepos();
-
-    setMe({ ...meData });
-    setAbout({ ...aboutData });
     repos.then((r) => setProjects([...r]));
-    setFooter({ ...footerData });
   }, []);
 
   return (
-    <PortfolioProvider value={{ me, about, projects, footer, isLoggedIn, profile }}>
-      <Nav />
-      <Me />
-      <About />
-      <Projects />
-      <Contact />
-      <Footer />
-    </PortfolioProvider>
+    <StaticQuery
+      query={graphql`
+        query {
+          site {
+            siteMetadata {
+              me {
+                title
+                name
+                subtitle
+                cta
+              }
+              about {
+                img
+                paragraphOne
+                paragraphThree
+                paragraphTwo
+                resume
+              }
+              footer {
+                networks {
+                  id
+                  name
+                  url
+                }
+              }
+            }
+          }
+        }
+      `}
+      render={({ site }) => {
+        const { me, about, footer } = site.siteMetadata;
+        return (
+          <PortfolioProvider value={{ me, about, projects, footer, isLoggedIn, profile }}>
+            <Nav />
+            <Me />
+            <About />
+            <Projects />
+            <Contact />
+            <Footer />
+          </PortfolioProvider>
+        );
+      }}
+    />
   );
 }
 
