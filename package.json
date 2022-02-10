@@ -28,7 +28,7 @@
     "gatsby-theme-firebase": "^1.0.10",
     "gatsby-transformer-sharp": "^2.5.5",
     "nanoid": "^3.1.10",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
